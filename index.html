@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+
+    <title>Guests</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-4 g-4">
+            <!-- [DIV FORM] -->
+            <div class="col-4">
+                <h2 class="mb-4">Add Guest</h2>
+                
+                <!-- [FORM] -->
+                <form hx-post="/add-guest" hx-target="#guest-list" hx-swap="beforeend" hx-indicator="#spinner">
+                    <!-- [NAME] -->
+                    <div class="mb-2">
+                        <label for="guest-name">Name</label>
+                        <input type="text" name="name" id="guest-name" class="form-control">
+                    </div>
+
+                    <!-- [DOCUMENT] -->
+                    <div class="mb-2">
+                        <label for="guest-document">Document</label>
+                        <input type="text" name="document" id="guest-document" class="form-control">
+                    </div>
+                    
+                    <!-- [SUBMIT] -->
+                    <div class="col-12">
+                    <button class="btn btn-primary" type="submit">
+                        <span id="spinner" class="spinner-border spinner-border-sm htmx-indicator"></span>
+                        Add new guest
+                    </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- [LIST] -->
+            <div class="col-8">
+                <h2 class="mb-4">Guest List</h2>
+
+                <ul class="list-group fs-5 me-5" id="guest-list">
+                    {{ range .Guests }}
+                        {{ block "guest-list-element" .}}
+                            <li class="list-group-item bg-primary text-white">{{ .Name }} - {{ .Document }}</li>
+                        {{ end }}
+                    {{ end }}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
